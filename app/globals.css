@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 122 56% 24%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 122 39% 49%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 122 20% 96%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 122 30% 70%;
+    --accent-foreground: 122 56% 24%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 122 30% 80%;
+    --input: 122 30% 80%;
+    --ring: 45 90% 51%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 122 39% 49%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 122 56% 24%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 122 10% 20%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 122 30% 30%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 122 20% 25%;
+    --input: 122 20% 25%;
+    --ring: 45 90% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Enhanced focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-4 focus:ring-accent-warm focus:ring-offset-2;
+  }
+
+  /* Skip to content link */
+  .skip-link {
+    @apply fixed -top-16 left-4 z-[100] bg-accent-warm text-primary-700 
+           font-bold px-6 py-4 rounded-lg shadow-2xl border-4 border-primary-700
+           focus:top-4 transition-all duration-300;
+  }
+
+  /* Screen reader only */
+  .sr-only-custom {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 
+           focus:z-50 focus:bg-accent-warm focus:text-primary-700 
+           focus:px-6 focus:py-4 focus:rounded-lg focus:shadow-2xl;
+  }
+
+  /* Pattern backgrounds */
+  .bg-dots {
+    background-image: radial-gradient(circle, rgba(76, 175, 80, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-grid {
+    background-image: 
+      linear-gradient(rgba(76, 175, 80, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(76, 175, 80, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-700 to-primary-900;
+  }
+
+  /* Animated gradient border */
+  .gradient-border {
+    @apply relative before:absolute before:inset-0 before:rounded-lg 
+           before:p-[2px] before:bg-gradient-to-r before:from-primary-600 
+           before:via-accent-warm before:to-primary-600 before:-z-10
+           before:animate-shimmer before:bg-[length:200%_100%];
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-primary-200/50;
+  }
+
+  /* Neumorphism effect */
+  .neumorphism {
+    @apply bg-gradient-to-br from-white to-primary-50
+           shadow-[8px_8px_16px_rgba(27,94,32,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)];
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    * {
+      @apply !border-4;
+    }
+    
+    .focus-ring {
+      @apply focus:ring-8;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print {
+      @apply hidden;
+    }
+    
+    * {
+      @apply text-black bg-white;
+    }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-primary-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-600 rounded-full hover:bg-primary-700;
+}
+
+/* Selection */
+::selection {
+  @apply bg-accent-warm text-primary-700;
+}
+
+::-moz-selection {
+  @apply bg-accent-warm text-primary-700;
+}
