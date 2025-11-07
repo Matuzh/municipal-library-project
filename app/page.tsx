@@ -1,354 +1,358 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Book, Users, Calendar, Headphones, Phone, Mail, MapPin, ArrowRight, BookOpen, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { StatCard } from '@/components/library/stat-card'
-import { NewsCard } from '@/components/library/news-card'
-import { FeatureBox } from '@/components/library/feature-box'
-import type { News } from '@/types'
+import { motion } from 'framer-motion'
+import {
+  BookOpen,
+  Calendar,
+  Users,
+  Clock,
+  MapPin,
+  Phone,
+  Mail,
+  ArrowRight,
+  Sparkles,
+  Heart,
+  Award,
+  Newspaper,
+  GraduationCap,
+  Baby,
+} from 'lucide-react'
 
-const newsData: News[] = [
+const stats = [
+  { icon: BookOpen, label: 'Książek', value: '15,000+', color: 'text-green-600' },
+  { icon: Users, label: 'Czytelników', value: '2,500+', color: 'text-blue-600' },
+  { icon: Calendar, label: 'Wydarzeń rocznie', value: '120+', color: 'text-purple-600' },
+  { icon: Award, label: 'Lat działalności', value: '75+', color: 'text-amber-600' },
+]
+
+const services = [
   {
-    id: '1',
+    icon: BookOpen,
+    title: 'Wypożyczalnia',
+    description: 'Bogaty zbiór literatury pięknej, popularnonaukowej i fachowej dla wszystkich grup wiekowych.',
+    link: '/wypozyczalnia',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Czytelnia',
+    description: 'Przestrzeń do nauki i pracy z dostępem do prasy, czasopism i Internetu.',
+    link: '/czytelnia',
+  },
+  {
+    icon: Baby,
+    title: 'Dla dzieci',
+    description: 'Kącik dla najmłodszych z bogatą kolekcją książek, zabawek i zajęć edukacyjnych.',
+    link: '/dla-dzieci',
+  },
+  {
+    icon: Calendar,
+    title: 'Wydarzenia',
+    description: 'Spotkania autorskie, warsztaty, konkursy i inne wydarzenia kulturalne.',
+    link: '/wydarzenia',
+  },
+]
+
+const news = [
+  {
     title: 'Noc Bibliotek 2025',
-    description: 'Zapraszamy na wyjątkowy wieczór! Spotkania autorskie, warsztaty, konkursy z nagrodami. Idealna okazja dla całej rodziny!',
-    date: '15 czerwca 2025',
-    category: 'urgent',
-    icon: '🔥',
-    link: '/aktualnosci'
+    date: '15 maja 2025',
+    category: 'Wydarzenie',
+    description: 'Zapraszamy na wyjątkową noc pełną atrakcji dla całej rodziny!',
+    badge: 'Wkrótce',
   },
   {
-    id: '2',
-    title: 'Nowe książki w kolekcji',
-    description: 'Ponad 100 nowych pozycji! Bestsellery, literatura popularna, poradniki i książki dla dzieci.',
-    date: '1 listopada 2025',
-    category: 'new',
-    icon: '✨',
-    link: '/katalog'
+    title: 'Warsztaty dla seniorów',
+    date: '10 kwietnia 2025',
+    category: 'Warsztat',
+    description: 'Bezpłatne zajęcia z obsługi komputera i Internetu.',
+    badge: 'Zapisy',
   },
   {
-    id: '3',
-    title: 'Mała Książka – Wielki Człowiek',
-    description: 'Ruszyła nowa edycja programu dla najmłodszych (3-6 lat). Bezpłatne książki dla uczestników!',
-    date: 'Zapisz się już dziś!',
-    category: 'program',
-    icon: '📚',
-    link: '/aktualnosci'
-  }
+    title: 'Konkurs czytelniczy',
+    date: '1 marca 2025',
+    category: 'Konkurs',
+    description: 'Ruszył tegoroczny konkurs dla uczniów szkół podstawowych.',
+    badge: 'Aktywny',
+  },
 ]
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="w-full">
       {/* Hero Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 text-white py-24 lg:py-32 border-b-8 border-accent-warm"
-        role="banner"
-      >
-        <div className="absolute inset-0 bg-grid opacity-10" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-warm/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-500/30 rounded-full blur-3xl" />
-        
-        <div className="container relative z-10 mx-auto px-4">
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <h1 className="text-5xl md:text-7xl font-black mb-6 drop-shadow-2xl">
-              📚 Miejsko-Gminna Biblioteka Publiczna w Narolu
-            </h1>
-            <p className="text-xl md:text-2xl mb-10 text-primary-50 leading-relaxed font-medium">
-              Twoje centrum kultury, wiedzy i inspiracji – odkryj świat książek i wydarzeń w sercu Narola
-            </p>
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-20 md:py-32">
+        <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+        <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+            {/* Hero Content */}
             <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-wrap gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <Button asChild size="xl" variant="warning">
-                <Link href="/katalog">
-                  <BookOpen className="mr-2 h-5 w-5" />
-                  Przejrzyj Katalog
-                </Link>
-              </Button>
-              <Button asChild size="xl" variant="outline" className="bg-white/10 hover:bg-white border-white">
-                <Link href="/aktualnosci">
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Zobacz Wydarzenia
-                </Link>
-              </Button>
-              <Button asChild size="xl" variant="secondary">
-                <Link href="/kontakt">
-                  <Phone className="mr-2 h-5 w-5" />
-                  Kontakt
-                </Link>
-              </Button>
+              <Badge className="mb-4 text-sm" variant="secondary">
+                <Sparkles className="mr-1 h-3 w-3" aria-hidden="true" />
+                Otwarta dla wszystkich
+              </Badge>
+              <h1 className="mb-6 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                <span className="block text-foreground">Witaj w</span>
+                <span className="block bg-gradient-to-r from-primary via-primary to-secondary bg-clip-text text-transparent">
+                  Bibliotece Narol
+                </span>
+              </h1>
+              <p className="mb-8 text-lg text-muted-foreground md:text-xl leading-relaxed">
+                Miejsko-Gminna Biblioteka Publiczna im. Tadeusza Polanowskiego. 
+                Twoje centrum kultury, wiedzy i społeczności lokalnej.
+              </p>
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <Button asChild size="lg" className="group">
+                  <Link href="/katalog">
+                    <BookOpen className="mr-2 h-5 w-5" aria-hidden="true" />
+                    Przeszukaj katalog
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link href="/o-bibliotece">
+                    <Heart className="mr-2 h-5 w-5" aria-hidden="true" />
+                    Poznaj nas
+                  </Link>
+                </Button>
+              </div>
             </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
 
-      {/* Statistics Section */}
-      <section className="py-16 bg-background" aria-label="Statystyki biblioteki">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard number="15,000+" label="Książek w zbiorach" icon="📚" delay={0} />
-            <StatCard number="2,500+" label="Aktywnych czytelników" icon="👥" delay={0.1} />
-            <StatCard number="50+" label="Wydarzeń rocznie" icon="🎪" delay={0.2} />
-            <StatCard number="100+" label="E-booków i audiobooków" icon="🎧" delay={0.3} />
+            {/* Hero Image/Stats Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Card className="shadow-2xl border-2">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    <Award className="h-6 w-6 text-primary" aria-hidden="true" />
+                    Nasza Biblioteka w liczbach
+                  </CardTitle>
+                  <CardDescription>
+                    Ponad 75 lat służby społeczności Narola
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-6">
+                    {stats.map((stat, index) => {
+                      const Icon = stat.icon
+                      return (
+                        <motion.div
+                          key={stat.label}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4, delay: 0.1 * index }}
+                          className="flex flex-col items-center text-center p-4 rounded-lg bg-accent/50 hover:bg-accent transition-colors"
+                        >
+                          <Icon className={`h-8 w-8 mb-2 ${stat.color}`} aria-hidden="true" />
+                          <div className="text-3xl font-bold text-foreground">{stat.value}</div>
+                          <div className="text-sm text-muted-foreground">{stat.label}</div>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      <Separator />
+      {/* Services Section */}
+      <section className="py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+              Nasze usługi
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Odkryj wszystko, co nasza biblioteka ma do zaoferowania
+            </p>
+          </div>
 
-      {/* Three Column Layout */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Left Sidebar - Quick Access */}
-            <aside className="lg:col-span-3 space-y-6" aria-label="Szybki dostęp">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {services.map((service, index) => {
+              const Icon = service.icon
+              return (
+                <motion.div
+                  key={service.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                >
+                  <Card className="h-full transition-all hover:shadow-xl hover:-translate-y-1 group">
+                    <CardHeader>
+                      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        <Icon className="h-6 w-6" aria-hidden="true" />
+                      </div>
+                      <CardTitle className="text-xl">{service.title}</CardTitle>
+                      <CardDescription className="leading-relaxed">
+                        {service.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button asChild variant="ghost" className="group/link">
+                        <Link href={service.link}>
+                          Dowiedz się więcej
+                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" aria-hidden="true" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* News Section */}
+      <section className="bg-muted/50 py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 flex items-center justify-between">
+            <div>
+              <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+                Aktualności
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Bądź na bieżąco z wydarzeniami w bibliotece
+              </p>
+            </div>
+            <Button asChild variant="outline" className="hidden md:flex">
+              <Link href="/wydarzenia">
+                <Newspaper className="mr-2 h-4 w-4" aria-hidden="true" />
+                Wszystkie wydarzenia
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {news.map((item, index) => (
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="sticky top-24"
-              >
-                <Card className="border-4 border-primary-500">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-2xl">
-                      <span className="text-3xl">⚡</span>
-                      Szybkie odnośniki
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <Button asChild className="w-full justify-start" size="lg">
-                        <Link href="/uslugi">
-                          <Book className="mr-2 h-5 w-5" />
-                          Wypożyczalnia
-                        </Link>
-                      </Button>
-                      <Button asChild className="w-full justify-start" variant="secondary" size="lg">
-                        <Link href="/katalog">
-                          <BookOpen className="mr-2 h-5 w-5" />
-                          Katalog Online
-                        </Link>
-                      </Button>
-                      <Button asChild className="w-full justify-start" variant="outline" size="lg">
-                        <Link href="/godziny-otwarcia">
-                          <Calendar className="mr-2 h-5 w-5" />
-                          Godziny otwarcia
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="mt-6 border-2 border-primary-300">
-                  <CardHeader>
-                    <CardTitle className="text-xl">📞 Kontakt</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Phone className="h-4 w-4 text-primary-600" />
-                      <a href="tel:+48166317200" className="font-semibold hover:text-primary-600">
-                        16 631 72 00
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Mail className="h-4 w-4 text-primary-600" />
-                      <a href="mailto:biblioteka@narol.pl" className="font-semibold hover:text-primary-600">
-                        biblioteka@narol.pl
-                      </a>
-                    </div>
-                    <div className="flex items-start gap-2 text-sm">
-                      <MapPin className="h-4 w-4 text-primary-600 mt-1" />
-                      <span className="font-semibold">ul. Rynek 1<br/>37-610 Narol</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="lg:col-span-6" id="main-content" role="main" aria-label="Główna treść">
-              {/* About Section */}
-              <motion.div
+                key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <div className="text-center mb-12">
-                  <h2 className="text-4xl font-black text-primary-700 mb-4 flex items-center justify-center gap-3">
-                    <span className="text-accent-warm">◆</span>
-                    Witamy w naszej bibliotece
-                    <span className="text-accent-warm">◆</span>
-                  </h2>
-                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Centrum kultury, edukacji i społeczności lokalnej
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                  <FeatureBox
-                    icon="📚"
-                    title="Bogaty księgozbiór"
-                    description="Ponad 15,000 woluminów literatury pięknej, popularnonaukowej, fachowej i dziecięcej."
-                    delay={0}
-                  />
-                  <FeatureBox
-                    icon="💻"
-                    title="Zasoby cyfrowe"
-                    description="Dostęp do e-booków, audiobooków, czasopism cyfrowych i baz danych online."
-                    delay={0.1}
-                  />
-                  <FeatureBox
-                    icon="🎭"
-                    title="Wydarzenia kulturalne"
-                    description="Spotkania autorskie, warsztaty literackie, kluby czytelnicze i wystawy."
-                    delay={0.2}
-                  />
-                  <FeatureBox
-                    icon="👶"
-                    title="Dla najmłodszych"
-                    description="Program 'Mała Książka - Wielki Człowiek' i zajęcia edukacyjne dla dzieci."
-                    delay={0.3}
-                  />
-                </div>
+                <Card className="h-full hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="mb-3 flex items-center justify-between">
+                      <Badge variant="secondary">{item.category}</Badge>
+                      <Badge variant="outline">{item.badge}</Badge>
+                    </div>
+                    <CardTitle className="text-xl leading-tight">{item.title}</CardTitle>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Calendar className="h-4 w-4" aria-hidden="true" />
+                      <time dateTime={item.date}>{item.date}</time>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="leading-relaxed">
+                      {item.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </motion.div>
+            ))}
+          </div>
 
-              <Separator />
-
-              {/* Services Section */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="my-16"
-              >
-                <div className="text-center mb-12">
-                  <h2 className="text-4xl font-black text-primary-700 mb-4">
-                    Nasze Usługi
-                  </h2>
-                  <p className="text-xl text-muted-foreground">
-                    Wszystko, czego potrzebujesz w jednym miejscu
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Card>
-                    <CardHeader>
-                      <Badge variant="success" className="w-fit mb-2">Najpopularniejsze</Badge>
-                      <CardTitle>Wypożyczalnia</CardTitle>
-                      <CardDescription>
-                        Wypożyczaj książki, audiobooki i czasopisma na dogodnych zasadach.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                      <Button asChild className="w-full">
-                        <Link href="/uslugi">
-                          Poznaj szczegóły
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardFooter>
-                  </Card>
-
-                  <Card>
-                    <CardHeader>
-                      <Badge className="w-fit mb-2">Dostępne teraz</Badge>
-                      <CardTitle>Czytelnia</CardTitle>
-                      <CardDescription>
-                        Komfortowe miejsce do nauki z dostępem do internetu i zasobów cyfrowych.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                      <Button asChild variant="secondary" className="w-full">
-                        <Link href="/uslugi">
-                          Dowiedz się więcej
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
-              </motion.div>
-            </main>
-
-            {/* Right Sidebar - News */}
-            <aside className="lg:col-span-3 space-y-6" aria-label="Aktualności i wydarzenia">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="sticky top-24"
-              >
-                <div className="flex items-center gap-2 mb-6">
-                  <span className="text-4xl animate-bounce-subtle">🔥</span>
-                  <h3 className="text-3xl font-black text-primary-700">Aktualności</h3>
-                </div>
-                
-                <div className="space-y-6">
-                  {newsData.map((news, index) => (
-                    <NewsCard key={news.id} news={news} delay={index * 0.1} />
-                  ))}
-                </div>
-
-                <Button asChild className="w-full mt-6" size="lg" variant="outline">
-                  <Link href="/aktualnosci">
-                    Zobacz wszystkie aktualności
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </aside>
+          <div className="mt-8 text-center md:hidden">
+            <Button asChild variant="outline">
+              <Link href="/wydarzenia">
+                <Newspaper className="mr-2 h-4 w-4" aria-hidden="true" />
+                Wszystkie wydarzenia
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      <Separator />
-
-      {/* Call to Action */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="py-16 bg-gradient-to-br from-primary-50 to-primary-100"
-      >
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-black text-primary-700 mb-6">
-            Dołącz do nas!
-          </h2>
-          <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Zostań częścią naszej społeczności czytelników. Bezpłatna rejestracja!
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="xl" variant="warning">
-              <Link href="/kontakt">
-                Jak się zapisać?
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button asChild size="xl" variant="outline">
-              <Link href="/o-bibliotece">
-                O nas
-              </Link>
-            </Button>
-          </div>
+      {/* Contact CTA Section */}
+      <section className="py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="overflow-hidden border-2">
+            <div className="grid lg:grid-cols-2">
+              <div className="bg-gradient-to-br from-primary to-secondary p-8 md:p-12 text-primary-foreground">
+                <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+                  Odwiedź nas lub skontaktuj się
+                </h2>
+                <p className="mb-8 text-lg opacity-90">
+                  Jesteśmy tu, aby Ci pomóc. Przyjdź osobiście lub skontaktuj się z nami telefonicznie czy mailowo.
+                </p>
+                <div className="space-y-4">
+                  <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
+                    <Link href="/kontakt">
+                      <Mail className="mr-2 h-5 w-5" aria-hidden="true" />
+                      Formularz kontaktowy
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="bg-card p-8 md:p-12">
+                <h3 className="mb-6 text-xl font-bold">Dane kontaktowe</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="h-5 w-5 text-primary mt-1" aria-hidden="true" />
+                    <div>
+                      <div className="font-semibold">Adres</div>
+                      <div className="text-muted-foreground">
+                        ul. Rynek 1<br />
+                        37-610 Narol
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Phone className="h-5 w-5 text-primary mt-1" aria-hidden="true" />
+                    <div>
+                      <div className="font-semibold">Telefon</div>
+                      <a 
+                        href="tel:+48166317200" 
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        16 631 72 00
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Mail className="h-5 w-5 text-primary mt-1" aria-hidden="true" />
+                    <div>
+                      <div className="font-semibold">Email</div>
+                      <a 
+                        href="mailto:biblioteka@narol.pl" 
+                        className="text-muted-foreground hover:text-foreground transition-colors break-all"
+                      >
+                        biblioteka@narol.pl
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Clock className="h-5 w-5 text-primary mt-1" aria-hidden="true" />
+                    <div>
+                      <div className="font-semibold">Godziny otwarcia</div>
+                      <Button asChild variant="link" className="h-auto p-0 text-muted-foreground hover:text-foreground">
+                        <Link href="/godziny-otwarcia">
+                          Zobacz godziny otwarcia
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
         </div>
-      </motion.section>
+      </section>
     </div>
   )
 }

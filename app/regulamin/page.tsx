@@ -1,251 +1,378 @@
-import React from "react";
+'use client'
 
-const Regulations: React.FC = () => {
+import { motion } from 'framer-motion'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { 
+  FileText,
+  Download,
+  Shield,
+  BookOpen,
+  Users,
+  CreditCard,
+  Scale,
+  CheckCircle2,
+  Phone,
+  Mail
+} from 'lucide-react'
+import Link from 'next/link'
+
+const chapters = [
+  {
+    number: 'I',
+    title: 'Postanowienia Ogólne',
+    icon: FileText,
+    sections: [
+      {
+        paragraph: '§ 1',
+        content: 'Miejsko-Gminna Biblioteka Publiczna im. Tadeusza Polanowskiego w Narolu, zwana dalej Biblioteką, działa na podstawie ustawy o bibliotekach z dnia 27 czerwca 1997 r. (Dz.U. z 2012 r. poz. 642 z późn. zm.) oraz ustawy o organizowaniu i prowadzeniu działalności kulturalnej.'
+      },
+      {
+        paragraph: '§ 2',
+        content: 'Biblioteka jest samorządową instytucją kultury, której organizatorem jest Gmina Narol.'
+      },
+      {
+        paragraph: '§ 3',
+        content: 'Niniejszy Regulamin określa zasady korzystania z Biblioteki, prawa i obowiązki użytkowników oraz zasady udostępniania zbiorów.'
+      }
+    ]
+  },
+  {
+    number: 'II',
+    title: 'Użytkownicy Biblioteki',
+    icon: Users,
+    sections: [
+      {
+        paragraph: '§ 4',
+        content: 'Z usług Biblioteki może korzystać każda osoba, która zapozna się z Regulaminem i go zaakceptuje.'
+      },
+      {
+        paragraph: '§ 5',
+        content: 'Zapis do Biblioteki następuje po wypełnieniu karty czytelnika i okazaniu dokumentu tożsamości. Osoby niepełnoletnie do 13 roku życia wymagają zgody rodzica lub opiekuna prawnego.'
+      },
+      {
+        paragraph: '§ 6',
+        content: 'Korzystanie z usług Biblioteki jest bezpłatne. Opłaty pobierane są jedynie za usługi reprograficzne oraz kary za przetrzymanie materiałów bibliotecznych.'
+      }
+    ]
+  },
+  {
+    number: 'III',
+    title: 'Zasady Wypożyczania',
+    icon: BookOpen,
+    sections: [
+      {
+        paragraph: '§ 7',
+        content: 'Czytelnik może wypożyczyć jednocześnie do 5 książek na okres 30 dni. Istnieje możliwość przedłużenia wypożyczenia, jeśli książka nie jest zarezerwowana przez innego czytelnika.'
+      },
+      {
+        paragraph: '§ 8',
+        content: 'Niektóre materiały biblioteczne (zbiory specjalne, wydania regionalne, nowe pozycje) mogą być udostępniane wyłącznie na miejscu w czytelni.'
+      },
+      {
+        paragraph: '§ 9',
+        content: 'Czytelnik zobowiązany jest zwrócić wypożyczone materiały w terminie. W przypadku niemożności zwrotu należy skontaktować się z biblioteką w celu prolongaty.'
+      }
+    ]
+  },
+  {
+    number: 'IV',
+    title: 'Opłaty i Kary',
+    icon: CreditCard,
+    sections: [
+      {
+        paragraph: '§ 10',
+        content: 'Za przetrzymanie materiałów bibliotecznych pobierana jest kara w wysokości 0,50 zł za każdy dzień przetrzymania.'
+      },
+      {
+        paragraph: '§ 11',
+        content: 'W przypadku zniszczenia lub zagubienia książki czytelnik zobowiązany jest do pokrycia kosztów zakupu nowego egzemplarza lub zwrotu równowartości według aktualnej ceny rynkowej.'
+      },
+      {
+        paragraph: '§ 12',
+        content: 'Opłaty za usługi reprograficzne (kserokopie, wydruki, skany) określa obowiązujący cennik dostępny w bibliotece.'
+      }
+    ]
+  },
+  {
+    number: 'V',
+    title: 'Prawa i Obowiązki Użytkowników',
+    icon: Scale,
+    sections: [
+      {
+        paragraph: '§ 13',
+        content: 'Użytkownik ma prawo do: bezpłatnego korzystania ze zbiorów biblioteki, pomocy bibliotekarzy w wyszukiwaniu informacji, udziału w imprezach kulturalnych organizowanych przez bibliotekę, dostępu do Internetu i sprzętu komputerowego.'
+      },
+      {
+        paragraph: '§ 14',
+        content: 'Użytkownik zobowiązany jest do: przestrzegania Regulaminu, dbania o wypożyczone materiały, zachowania ciszy w czytelni, poszanowania mienia biblioteki, zwrotu materiałów w terminie.'
+      },
+      {
+        paragraph: '§ 15',
+        content: 'Czytelnik ponosi pełną odpowiedzialność materialną za wypożyczone materiały od momentu ich wypożyczenia do chwili zwrotu.'
+      }
+    ]
+  },
+  {
+    number: 'VI',
+    title: 'Ochrona Danych Osobowych',
+    icon: Shield,
+    sections: [
+      {
+        paragraph: '§ 16',
+        content: 'Biblioteka przetwarza dane osobowe użytkowników zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 (RODO).'
+      },
+      {
+        paragraph: '§ 17',
+        content: 'Administratorem danych osobowych jest Miejsko-Gminna Biblioteka Publiczna w Narolu. Dane osobowe przetwarzane są wyłącznie w celu realizacji zadań statutowych biblioteki.'
+      },
+      {
+        paragraph: '§ 18',
+        content: 'Użytkownik ma prawo dostępu do swoich danych, ich poprawiania, usuwania oraz ograniczenia przetwarzania. Szczegółowe informacje zawiera Klauzula Informacyjna RODO dostępna w bibliotece.'
+      }
+    ]
+  },
+  {
+    number: 'VII',
+    title: 'Postanowienia Końcowe',
+    icon: CheckCircle2,
+    sections: [
+      {
+        paragraph: '§ 19',
+        content: 'W sprawach nieuregulowanych w Regulaminie mają zastosowanie przepisy ustawy o bibliotekach oraz inne właściwe przepisy.'
+      },
+      {
+        paragraph: '§ 20',
+        content: 'Regulamin wchodzi w życie z dniem podjęcia uchwały przez Radę Gminy Narol.'
+      },
+      {
+        paragraph: '§ 21',
+        content: 'Biblioteka zastrzega sobie prawo do wprowadzania zmian w Regulaminie. Użytkownicy będą informowani o zmianach z odpowiednim wyprzedzeniem.'
+      }
+    ]
+  }
+]
+
+export default function RegulationsPage() {
   return (
-    <div className="container">
-      <h1>Regulamin Miejsko-Gminnej Biblioteki Publicznej w Narolu</h1>
-
-      <section className="content-section">
-        <p>
-          Regulamin określa zasady organizacji i działania Miejsko-Gminnej Biblioteki Publicznej 
-          w Narolu jako samorządowej instytucji kultury.
-        </p>
-        <p style={{ marginTop: "var(--spacing-md)" }}>
-          <strong>Podstawa prawna:</strong> Ustawa z dnia 27 czerwca 1997 r. o bibliotekach 
-          (Dz.U. 1997 nr 85 poz. 539 z późn. zm.)
-        </p>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział I - Postanowienia Ogólne</h2>
-
-        <h3>§ 1</h3>
-        <p>
-          Miejsko-Gminna Biblioteka Publiczna w Narolu, zwana dalej „Biblioteką", działa 
-          na podstawie:
-        </p>
-        <ul style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Ustawy z dnia 27 czerwca 1997 r. o bibliotekach (Dz.U. 1997 nr 85 poz. 539 z późn. zm.)</li>
-          <li>Ustawy z dnia 25 października 1991 r. o organizowaniu i prowadzeniu działalności kulturalnej</li>
-          <li>Ustawy z dnia 8 marca 1990 r. o samorządzie gminnym</li>
-          <li>Niniejszego Regulaminu</li>
-        </ul>
-
-        <h3>§ 2</h3>
-        <p><strong>Biblioteka nosi nazwę:</strong> Miejsko-Gminna Biblioteka Publiczna w Narolu</p>
-        <p><strong>Siedziba Biblioteki:</strong> ul. Rynek 1, 37-610 Narol</p>
-        <p><strong>Organizatorem Biblioteki jest:</strong> Gmina Narol</p>
-
-        <h3>§ 3</h3>
-        <p>
-          Biblioteka jest samorządową instytucją kultury powołaną w celu gromadzenia, 
-          opracowywania, przechowywania i udostępniania materiałów bibliotecznych oraz 
-          rozwijania i zaspokajania potrzeb czytelniczych i informacyjnych społeczeństwa.
-        </p>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział II - Cele i Zadania Biblioteki</h2>
-
-        <h3>§ 4</h3>
-        <p>Celami Biblioteki są:</p>
-        <ol style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Gromadzenie, opracowywanie, przechowywanie i ochrona materiałów bibliotecznych</li>
-          <li>Udostępnianie zbiorów bibliotecznych na miejscu, wypożyczanie na zewnątrz oraz wypożyczanie międzybiblioteczne</li>
-          <li>Prowadzenie działalności informacyjnej i bibliograficznej</li>
-          <li>Zaspokajanie potrzeb oświatowych, kulturalnych i informacyjnych społeczności lokalnej</li>
-          <li>Wspieranie edukacji i samokształcenia</li>
-          <li>Upowszechnianie czytelnictwa i kultury</li>
-          <li>Organizowanie i wspieranie działalności kulturalno-oświatowej</li>
-        </ol>
-
-        <h3>§ 5</h3>
-        <p>Do zadań Biblioteki należy w szczególności:</p>
-        <ol style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Gromadzenie, opracowywanie i przechowywanie materiałów bibliotecznych</li>
-          <li>Prowadzenie wypożyczalni i czytelni</li>
-          <li>Prowadzenie katalogu zbiorów oraz bazy danych bibliotecznych</li>
-          <li>Udzielanie informacji bibliotecznych, bibliograficznych i katalogowych</li>
-          <li>Prowadzenie działalności informacyjnej i poradniczej</li>
-          <li>Organizacja spotkań autorskich, wystaw, konkursów i innych imprez kulturalnych</li>
-          <li>Prowadzenie lekcji bibliotecznych i warsztatów edukacyjnych</li>
-          <li>Współpraca ze szkołami, przedszkolami i innymi placówkami oświatowymi</li>
-          <li>Prowadzenie działalności wydawniczej i informacyjnej</li>
-          <li>Udział w programach promujących czytelnictwo</li>
-          <li>Współpraca z innymi bibliotekami i instytucjami kultury</li>
-          <li>Prowadzenie działalności metodycznej dla bibliotek publicznych gminy</li>
-        </ol>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział III - Organizacja Biblioteki</h2>
-
-        <h3>§ 6</h3>
-        <p>
-          Biblioteka jest jednostką organizacyjną Gminy Narol i działa w formie samorządowej instytucji kultury.
-        </p>
-
-        <h3>§ 7</h3>
-        <p>W skład struktury organizacyjnej Biblioteki wchodzą:</p>
-        <ol style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Dyrektor Biblioteki</li>
-          <li>Wypożyczalnia dla dorosłych</li>
-          <li>Wypożyczalnia dla dzieci</li>
-          <li>Czytelnia</li>
-          <li>Dział gromadzenia i opracowania zbiorów</li>
-          <li>Dział informacyjno-bibliograficzny</li>
-        </ol>
-
-        <h3>§ 8</h3>
-        <p>
-          Biblioteką kieruje Dyrektor, który jest jednocześnie jej pracownikiem. Dyrektora powołuje i odwołuje Burmistrz Gminy Narol.
-        </p>
-
-        <h3>§ 9</h3>
-        <p>Do obowiązków Dyrektora należy:</p>
-        <ol style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Kierowanie bieżącą działalnością Biblioteki</li>
-          <li>Reprezentowanie Biblioteki na zewnątrz</li>
-          <li>Sprawowanie nadzoru nad działalnością merytoryczną i administracyjną</li>
-          <li>Zatrudnianie i zwalnianie pracowników</li>
-          <li>Gospodarowanie mieniem Biblioteki</li>
-          <li>Opracowywanie planów pracy i sprawozdań z działalności</li>
-          <li>Wykonywanie budżetu Biblioteki</li>
-          <li>Współpraca z organem prowadzącym i nadzorującym</li>
-        </ol>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział IV - Majątek i Gospodarka Finansowa</h2>
-
-        <h3>§ 10</h3>
-        <p>
-          Biblioteka pokrywa koszty swojej działalności z dotacji otrzymanej z budżetu Gminy Narol oraz z przychodów własnych.
-        </p>
-
-        <h3>§ 11</h3>
-        <p>Źródła finansowania Biblioteki:</p>
-        <ol style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Dotacja podmiotowa z budżetu Gminy Narol</li>
-          <li>Dotacje celowe</li>
-          <li>Przychody z działalności statutowej (opłaty za usługi reprograficzne, kary za przetrzymanie książek, opłaty za wydanie duplikatu karty bibliotecznej)</li>
-          <li>Darowizny, zapisy i spadki</li>
-          <li>Dotacje i granty z innych źródeł</li>
-          <li>Przychody z najmu i dzierżawy</li>
-        </ol>
-
-        <h3>§ 12</h3>
-        <p>
-          Biblioteka prowadzi gospodarkę finansową na zasadach określonych dla jednostek budżetowych.
-        </p>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział V - Zbiory Biblioteczne</h2>
-
-        <h3>§ 13</h3>
-        <p>Na zbiory Biblioteki składają się:</p>
-        <ol style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li>Książki, w tym literatura piękna, popularnonaukowa, naukowa i fachowa</li>
-          <li>Czasopisma</li>
-          <li>Zbiory specjalne (audiowizualne, kartograficzne, nuty, ikonograficzne)</li>
-          <li>Zbiory regionalne</li>
-          <li>Zbiory elektroniczne (e-booki, audiobooki, bazy danych)</li>
-        </ol>
-
-        <h3>§ 14</h3>
-        <p>
-          Gromadzenie zbiorów odbywa się zgodnie z profilem gromadzenia, uwzględniającym potrzeby społeczności lokalnej oraz możliwości finansowe Biblioteki.
-        </p>
-
-        <h3>§ 15</h3>
-        <p>
-          Selekcję (ubytki) zbiorów przeprowadza się zgodnie z obowiązującymi przepisami i zasadami.
-        </p>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział VI - Użytkownicy Biblioteki</h2>
-
-        <h3>§ 16</h3>
-        <p>
-          Z usług Biblioteki może korzystać każda osoba, która zapozna się z Regulaminem Biblioteki i go zaakceptuje.
-        </p>
-
-        <h3>§ 17</h3>
-        <p>
-          Korzystanie z usług Biblioteki jest bezpłatne. Opłaty pobierane są jedynie za usługi reprograficzne oraz kary za przetrzymanie materiałów bibliotecznych, zgodnie z obowiązującym cennikiem.
-        </p>
-
-        <h3>§ 18</h3>
-        <p>
-          Użytkownik zapisuje się do Biblioteki poprzez wypełnienie karty czytelnika i okazanie dokumentu tożsamości. Osoby niepełnoletnie wymagają zgody rodzica lub opiekuna prawnego.
-        </p>
-
-        <h3>§ 19</h3>
-        <p>
-          Szczegółowe prawa i obowiązki użytkowników określa Regulamin Korzystania z Biblioteki.
-        </p>
-      </section>
-
-      <section className="content-section">
-        <h2>Rozdział VII - Postanowienia Końcowe</h2>
-
-        <h3>§ 20</h3>
-        <p>
-          Zmian w Regulaminie dokonuje Rada Gminy Narol na wniosek Burmistrza Gminy Narol.
-        </p>
-
-        <h3>§ 21</h3>
-        <p>
-          W sprawach nieuregulowanych w Regulaminie mają zastosowanie przepisy ustawy o bibliotekach, ustawy o organizowaniu i prowadzeniu działalności kulturalnej oraz inne właściwe przepisy.
-        </p>
-
-        <h3>§ 22</h3>
-        <p>
-          Regulamin wchodzi w życie z dniem podjęcia uchwały przez Radę Gminy Narol.
-        </p>
-      </section>
-
-      <section
-        className="content-section"
-        style={{
-          backgroundColor: "var(--bg-light)",
-          padding: "var(--spacing-lg)",
-          borderRadius: "8px",
-          marginTop: "var(--spacing-xl)",
-        }}
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-12"
       >
-        <p style={{ textAlign: "center", fontSize: "0.9rem" }}>
-          <strong>Regulamin uchwalony:</strong> Uchwała nr XX/XXX/2020 Rady Gminy Narol 
-          z dnia 20 stycznia 2020 r.
+        <Badge className="mb-4" variant="secondary">
+          <Scale className="mr-1 h-3 w-3" />
+          Zasady korzystania
+        </Badge>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Regulamin Biblioteki
+        </h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          Miejsko-Gminna Biblioteka Publiczna im. Tadeusza Polanowskiego w Narolu
         </p>
-        <p style={{ textAlign: "center", fontSize: "0.9rem", marginTop: "var(--spacing-sm)" }}>
-          <strong>Data ostatniej zmiany:</strong> 15 marca 2023 r.
-        </p>
-      </section>
+      </motion.div>
 
-      <section className="content-section">
-        <h2>Załączniki</h2>
-        <ul style={{ lineHeight: "1.8", marginLeft: "var(--spacing-lg)" }}>
-          <li><a href="#">Regulamin Korzystania z Biblioteki (PDF)</a></li>
-          <li><a href="#">Regulamin Organizacyjny Biblioteki (PDF)</a></li>
-          <li><a href="#">Cennik Usług Reprograficznych (PDF)</a></li>
-          <li><a href="/rodo">Klauzula Informacyjna RODO dla Czytelników</a></li>
-        </ul>
-      </section>
+      {/* Download Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mb-12"
+      >
+        <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/20">
+          <CardContent className="py-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Download className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Pobierz pełny regulamin</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Dostępny w formacie PDF do pobrania i wydruku
+                  </p>
+                </div>
+              </div>
+              <Button size="lg" className="flex-shrink-0">
+                <Download className="mr-2 h-4 w-4" />
+                Pobierz PDF
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <section className="content-section" style={{ textAlign: "center", marginTop: "var(--spacing-xl)" }}>
-        <p>
-          Pytania dotyczące Regulaminu i zasad działania Biblioteki prosimy kierować na adres:
-        </p>
-        <p style={{ marginTop: "var(--spacing-md)" }}>
-          <strong>Email:</strong> <a href="mailto:biblioteka@narol.pl">biblioteka@narol.pl</a><br />
-          <strong>Telefon:</strong> <a href="tel:+48166317200">16 631 72 00</a>
-        </p>
-      </section>
+      {/* Chapters */}
+      <div className="space-y-8 mb-12">
+        {chapters.map((chapter, chapterIndex) => {
+          const Icon = chapter.icon
+          return (
+            <motion.div
+              key={chapter.number}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 * chapterIndex }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3 text-2xl">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground font-normal">
+                        Rozdział {chapter.number}
+                      </div>
+                      {chapter.title}
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {chapter.sections.map((section, sectionIndex) => (
+                    <div key={sectionIndex}>
+                      <h3 className="font-semibold text-lg mb-2 text-primary">
+                        {section.paragraph}
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {section.content}
+                      </p>
+                      {sectionIndex < chapter.sections.length - 1 && (
+                        <Separator className="mt-6" />
+                      )}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </motion.div>
+          )
+        })}
+      </div>
+
+      {/* Additional Documents */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-12"
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle>Dokumenty Dodatkowe</CardTitle>
+            <CardDescription>
+              Powiązane dokumenty i regulaminy
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Button variant="outline" className="justify-start h-auto py-4" asChild>
+                <Link href="/regulamin/korzystanie">
+                  <FileText className="mr-3 h-5 w-5 text-primary" />
+                  <div className="text-left">
+                    <div className="font-semibold">Regulamin Korzystania</div>
+                    <div className="text-xs text-muted-foreground">Szczegółowe zasady dla czytelników</div>
+                  </div>
+                </Link>
+              </Button>
+
+              <Button variant="outline" className="justify-start h-auto py-4" asChild>
+                <Link href="/regulamin/cennik">
+                  <CreditCard className="mr-3 h-5 w-5 text-primary" />
+                  <div className="text-left">
+                    <div className="font-semibold">Cennik Usług</div>
+                    <div className="text-xs text-muted-foreground">Opłaty za usługi reprograficzne</div>
+                  </div>
+                </Link>
+              </Button>
+
+              <Button variant="outline" className="justify-start h-auto py-4" asChild>
+                <Link href="/regulamin/rodo">
+                  <Shield className="mr-3 h-5 w-5 text-primary" />
+                  <div className="text-left">
+                    <div className="font-semibold">Klauzula RODO</div>
+                    <div className="text-xs text-muted-foreground">Informacja o przetwarzaniu danych</div>
+                  </div>
+                </Link>
+              </Button>
+
+              <Button variant="outline" className="justify-start h-auto py-4" asChild>
+                <Link href="/regulamin/organizacyjny">
+                  <Users className="mr-3 h-5 w-5 text-primary" />
+                  <div className="text-left">
+                    <div className="font-semibold">Regulamin Organizacyjny</div>
+                    <div className="text-xs text-muted-foreground">Struktura i organizacja pracy</div>
+                  </div>
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.section>
+
+      {/* Meta Information */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-12"
+      >
+        <Card className="bg-muted/50">
+          <CardContent className="py-8">
+            <div className="text-center space-y-2 text-sm text-muted-foreground">
+              <p>
+                <strong className="text-foreground">Regulamin uchwalony:</strong> Uchwała nr XX/XXX/2020 
+                Rady Gminy Narol z dnia 20 stycznia 2020 r.
+              </p>
+              <p>
+                <strong className="text-foreground">Data ostatniej zmiany:</strong> 15 marca 2023 r.
+              </p>
+              <p>
+                <strong className="text-foreground">Wersja:</strong> 2.1
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.section>
+
+      {/* Contact Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <Card className="text-center">
+          <CardContent className="py-12">
+            <h3 className="text-2xl font-bold mb-4">Masz pytania dotyczące regulaminu?</h3>
+            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
+              Skontaktuj się z nami, chętnie wyjaśnimy wszelkie wątpliwości dotyczące 
+              zasad korzystania z biblioteki
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Phone className="h-4 w-4 text-primary" />
+                <a href="tel:+48166317200" className="font-semibold hover:text-primary transition-colors">
+                  16 631 72 00
+                </a>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Mail className="h-4 w-4 text-primary" />
+                <a href="mailto:biblioteka@narol.pl" className="font-semibold hover:text-primary transition-colors">
+                  biblioteka@narol.pl
+                </a>
+              </div>
+            </div>
+            <Button asChild size="lg">
+              <Link href="/kontakt">
+                Skontaktuj się z nami
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.section>
     </div>
-  );
-};
-
-export default Regulations;
+  )
+}

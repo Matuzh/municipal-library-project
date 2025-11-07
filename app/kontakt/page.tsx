@@ -1,239 +1,303 @@
-'use client';
+'use client'
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { 
+  MapPin, 
+  Phone, 
+  Mail, 
+  Clock, 
+  Facebook,
+  Send,
+  CheckCircle2
+} from 'lucide-react'
+import Link from 'next/link'
+import { toast } from 'sonner'
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  consent: boolean;
-}
-
-export default function Contact() {
-  const [formData, setFormData] = useState<FormData>({
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     subject: '',
-    message: '',
-    consent: false,
-  });
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | ''>('');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1500))
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    toast.success('Wiadomość wysłana!', {
+      description: 'Odpowiemy najszybciej jak to możliwe.'
+    })
 
-    if (!formData.consent) {
-      setSubmitStatus('error');
-      alert('Proszę wyrazić zgodę na przetwarzanie danych osobowych.');
-      return;
-    }
-
-    // Tu później wyślesz dane do backendu (Express)
-    setSubmitStatus('success');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-      consent: false,
-    });
-  };
+    setFormData({ name: '', email: '', subject: '', message: '' })
+    setIsSubmitting(false)
+  }
 
   return (
-    <div className="container">
-      <h1>Kontakt</h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-12"
+      >
+        <Badge className="mb-4" variant="secondary">
+          <Phone className="mr-1 h-3 w-3" />
+          Skontaktuj się z nami
+        </Badge>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Kontakt
+        </h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          Jesteśmy tu, aby Ci pomóc
+        </p>
+      </motion.div>
 
-      <div className="three-column-grid" style={{ marginBottom: 'var(--spacing-xl)' }}>
-        <div className="card">
-          <h3>📍 Adres</h3>
-          <address style={{ fontStyle: 'normal', lineHeight: '1.8' }}>
-            <strong>
-              Miejsko-Gminna Biblioteka
-              <br />
-              Publiczna w Narolu
-            </strong>
-            <br />
-            ul. Rynek 1
-            <br />
-            37-610 Narol
-            <br />
-            woj. podkarpackie
-          </address>
+      <div className="grid lg:grid-cols-2 gap-8 mb-12">
+        {/* Contact Info Cards */}
+        <div className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  Adres
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <address className="not-italic text-muted-foreground">
+                  <p className="font-semibold text-foreground">
+                    Miejsko-Gminna Biblioteka Publiczna
+                  </p>
+                  <p className="mt-2">ul. Rynek 1</p>
+                  <p>37-610 Narol</p>
+                  <p>woj. podkarpackie</p>
+                </address>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Phone className="h-5 w-5 text-primary" />
+                  Telefon i Email
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Telefon</p>
+                  <a 
+                    href="tel:+48166317200"
+                    className="text-lg font-semibold hover:text-primary transition-colors"
+                  >
+                    16 631 72 00
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Email</p>
+                  <a 
+                    href="mailto:biblioteka@narol.pl"
+                    className="text-lg font-semibold hover:text-primary transition-colors break-all"
+                  >
+                    biblioteka@narol.pl
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Facebook</p>
+                  <a 
+                    href="https://facebook.com/bibliotekanarol"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-lg font-semibold hover:text-primary transition-colors"
+                  >
+                    <Facebook className="h-4 w-4" />
+                    @BibliotekaNarol
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-primary" />
+                  Godziny Otwarcia
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-muted-foreground">
+                <div className="flex justify-between">
+                  <span>Poniedziałek - Czwartek:</span>
+                  <span className="font-semibold">9:00 - 17:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Wtorek, Środa:</span>
+                  <span className="font-semibold">9:00 - 18:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Piątek:</span>
+                  <span className="font-semibold">9:00 - 15:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Sobota:</span>
+                  <span className="font-semibold">I i III: 8:30 - 12:30</span>
+                </div>
+                <Button asChild variant="link" className="w-full mt-4">
+                  <Link href="/godziny-otwarcia">
+                    Zobacz szczegóły →
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
 
-        <div className="card">
-          <h3>📞 Telefon i Email</h3>
-          <p>
-            <strong>Sekretariat:</strong>
-            <br />
-            <a href="tel:+48166317200">16 631 72 00</a>
-          </p>
-          <p>
-            <strong>Email:</strong>
-            <br />
-            <a href="mailto:biblioteka@narol.pl">biblioteka@narol.pl</a>
-          </p>
-          <p>
-            <strong>Facebook:</strong>
-            <br />
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              @BibliotekaNarol
-            </a>
-          </p>
-        </div>
+        {/* Contact Form */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Formularz Kontaktowy</CardTitle>
+              <CardDescription>
+                Masz pytania? Napisz do nas! Odpowiemy tak szybko, jak to możliwe.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    Imię i nazwisko
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-2 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    placeholder="Jan Kowalski"
+                  />
+                </div>
 
-        <div className="card">
-          <h3>🕐 Godziny Pracy</h3>
-          <p>
-            <strong>Pon - Czw:</strong> 9:00 - 17:00
-          </p>
-          <p>
-            <strong>Wtorek, Środa:</strong> 9:00 - 18:00
-          </p>
-          <p>
-            <strong>Piątek:</strong> 9:00 - 15:00
-          </p>
-          <p>
-            <strong>Sobota:</strong> I i III: 8:30 - 12:30
-          </p>
-          <p>
-            <a href="/godziny-otwarcia">Zobacz szczegóły →</a>
-          </p>
-        </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-2 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    placeholder="jan.kowalski@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                    Temat
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    required
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full px-4 py-2 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    placeholder="Np. Pytanie o wypożyczenia"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Wiadomość
+                  </label>
+                  <textarea
+                    id="message"
+                    required
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    rows={6}
+                    className="w-full px-4 py-2 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 resize-none"
+                    placeholder="Twoja wiadomość..."
+                  />
+                </div>
+
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  size="lg"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Clock className="mr-2 h-4 w-4 animate-spin" />
+                      Wysyłanie...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4" />
+                      Wyślij wiadomość
+                    </>
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
 
-      <section className="content-section">
-        <h2>Formularz Kontaktowy</h2>
-        <p>Masz pytania? Napisz do nas! Odpowiemy tak szybko, jak to możliwe.</p>
-
-        {submitStatus === 'success' && (
-          <div
-            style={{
-              backgroundColor: '#d4edda',
-              color: '#155724',
-              padding: 'var(--spacing-md)',
-              borderRadius: '4px',
-              marginBottom: 'var(--spacing-md)',
-              border: '1px solid #c3e6cb',
-            }}
-          >
-            ✓ Wiadomość została wysłana pomyślnie! Odpowiemy najszybciej jak to możliwe.
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div className="form-group">
-            <label htmlFor="name">Imię i nazwisko *</label>
-            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Adres email *</label>
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="phone">Numer telefonu (opcjonalnie)</label>
-            <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="subject">Temat wiadomości *</label>
-            <select id="subject" name="subject" value={formData.subject} onChange={handleChange} required>
-              <option value="">-- Wybierz temat --</option>
-              <option value="zapytanie">Ogólne zapytanie</option>
-              <option value="zapis">Zapis do biblioteki</option>
-              <option value="katalog">Pytanie o katalog</option>
-              <option value="wydarzenie">Wydarzenia i programy</option>
-              <option value="reklamacja">Reklamacja</option>
-              <option value="inne">Inne</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="message">Treść wiadomości *</label>
-            <textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={6} />
-          </div>
-
-          <div className="form-group">
-            <label
-              style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-xs)', cursor: 'pointer' }}
-            >
-              <input
-                type="checkbox"
-                name="consent"
-                checked={formData.consent}
-                onChange={handleChange}
-                required
-                style={{ minWidth: '24px', minHeight: '24px', marginTop: '4px' }}
-              />
-              <span style={{ fontSize: '0.9rem' }}>
-                Wyrażam zgodę na przetwarzanie moich danych osobowych przez Miejsko-Gminną Bibliotekę Publiczną w Narolu
-                w celu odpowiedzi na przesłane zapytanie zgodnie z{' '}
-                <a href="/rodo">Polityką Prywatności</a>. *
-              </span>
-            </label>
-          </div>
-
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: 'var(--spacing-md)' }}>
-            * Pola wymagane
-          </p>
-
-          <button type="submit" className="btn">
-            Wyślij wiadomość
-          </button>
-        </form>
-      </section>
-
-      <section className="content-section" style={{ marginTop: 'var(--spacing-xl)' }}>
-        <h2>Jak do nas trafić?</h2>
-        <div className="card" style={{ backgroundColor: 'var(--bg-light)' }}>
-          <h3>🗺️ Lokalizacja</h3>
-          <p>
-            Biblioteka znajduje się w centrum Narola, w historycznym budynku na Rynku. Biblioteka jest dobrze
-            skomunikowana - w pobliżu znajdują się przystanki autobusowe oraz parking publiczny.
-          </p>
-          <p style={{ marginTop: 'var(--spacing-md)' }}>
-            <strong>Dojazd:</strong>
-          </p>
-          <ul style={{ lineHeight: '1.8' }}>
-            <li>🚌 Przystanek autobusowy: 100 m od biblioteki</li>
-            <li>🚗 Parking publiczny: Przy Rynku (50 m)</li>
-            <li>♿ Dostęp dla osób niepełnosprawnych: Podjazd od strony głównego wejścia</li>
-          </ul>
-        </div>
-      </section>
-
-      <section className="content-section">
-        <h2>Dyrektor Biblioteki</h2>
-        <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h3>Anna Kowalska</h3>
-          <p>
-            <strong>Stanowisko:</strong> Dyrektor Miejsko-Gminnej Biblioteki Publicznej w Narolu
-          </p>
-          <p>
-            <strong>Email:</strong>{' '}
-            <a href="mailto:dyrektor@biblioteka-narol.pl">dyrektor@biblioteka-narol.pl</a>
-          </p>
-          <p>
-            <strong>Godziny przyjęć:</strong> Wtorek i Czwartek, 14:00 - 16:00 (po wcześniejszym umówieniu)
-          </p>
-        </div>
-      </section>
+      {/* Map Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle>Jak do nas trafić?</CardTitle>
+            <CardDescription>
+              Biblioteka mieści się w samym centrum Narola, przy głównym rynku
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="aspect-video w-full bg-muted rounded-lg flex items-center justify-center">
+              <div className="text-center text-muted-foreground">
+                <MapPin className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <p className="text-lg font-semibold">ul. Rynek 1, 37-610 Narol</p>
+                <p className="text-sm mt-2">Mapa dostępna wkrótce</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.section>
     </div>
-  );
+  )
 }

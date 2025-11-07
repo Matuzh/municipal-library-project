@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
+import { Navbar } from '@/components/layout/navbar'
+import { Footer } from '@/components/layout/footer'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -16,8 +18,8 @@ export const metadata: Metadata = {
     default: 'Miejsko-Gminna Biblioteka Publiczna w Narolu | Centrum Kultury',
     template: '%s | Biblioteka Narol'
   },
-  description: 'Miejsko-Gminna Biblioteka Publiczna im. Tadeusza Polanowskiego w Narolu. Centrum kultury, wiedzy i czytelnictwa. Dostępna dla wszystkich - WCAG AA+, TypeScript, shadcn/ui.',
-  keywords: ['biblioteka Narol', 'MGBP Narol', 'TypeScript', 'książki', 'kultura', 'wydarzenia', 'accessibility', 'WCAG'],
+  description: 'Miejsko-Gminna Biblioteka Publiczna im. Tadeusza Polanowskiego w Narolu. Centrum kultury, wiedzy i czytelnictwa. Pełna dostępność WCAG 2.1 AA+.',
+  keywords: ['biblioteka Narol', 'MGBP Narol', 'książki', 'kultura', 'wydarzenia', 'accessibility', 'WCAG', 'TypeScript'],
   authors: [{ name: 'Miejsko-Gminna Biblioteka Publiczna w Narolu' }],
   creator: 'MGBP Narol',
   publisher: 'MGBP Narol',
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
     url: 'https://biblioteka-narol.pl',
     siteName: 'Biblioteka Publiczna w Narolu',
     title: 'Miejsko-Gminna Biblioteka Publiczna w Narolu',
-    description: 'Nowoczesna strona biblioteki w TypeScript z shadcn/ui. Centrum kultury i wiedzy w Narolu.',
+    description: 'Nowoczesna biblioteka z pełną dostępnością. Centrum kultury i wiedzy w Narolu.',
     images: [{
       url: '/og-image.jpg',
       width: 1200,
@@ -49,7 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Biblioteka Publiczna w Narolu',
-    description: 'Nowoczesna strona TypeScript. Książki, wydarzenia, kultura.',
+    description: 'Centrum kultury, wiedzy i czytelnictwa w Narolu.',
     creator: '@BibliotekaNarol',
     images: ['/og-image.jpg'],
   },
@@ -61,8 +63,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#1b5e20' },
-    { media: '(prefers-color-scheme: dark)', color: '#4caf50' },
+    { media: '(prefers-color-scheme: light)', color: '#22c55e' },
+    { media: '(prefers-color-scheme: dark)', color: '#16a34a' },
   ],
 }
 
@@ -83,16 +85,16 @@ export default function RootLayout({
         <meta name="geo.placename" content="Narol" />
         <meta name="geo.position" content="50.3609;23.3257" />
       </head>
-      <body className="min-h-screen bg-dots font-sans antialiased">
+      <body className="flex flex-col min-h-screen bg-dots font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          {/* Skip to content */}
+          {/* Skip to content link - WCAG requirement */}
           <a href="#main-content" className="skip-link">
-            Przejdź do głównej treści (Enter)
+            Przejdź do głównej treści
           </a>
           
           {/* Screen reader announcements */}
@@ -104,9 +106,19 @@ export default function RootLayout({
             id="announcements"
           />
           
-          {children}
+          {/* Header with Navigation */}
+          <Navbar />
           
-          <Toaster richColors position="top-right" />
+          {/* Main Content */}
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          
+          {/* Footer */}
+          <Footer />
+          
+          {/* Toast Notifications */}
+          <Toaster richColors position="top-right" closeButton />
         </ThemeProvider>
       </body>
     </html>
