@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, BookOpen, Home, Calendar, Users, Info, Phone, FileText } from 'lucide-react'
+import { Menu, X, BookOpen, Home, Calendar, Users, Info, Phone, FileText, Newspaper } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AccessibilityToolbar } from './accessibility-toolbar'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navigation = [
   { name: 'Strona główna', href: '/', icon: Home },
+  { name: 'Aktualności', href: '/aktualnosci', icon: Newspaper },
   { name: 'O bibliotece', href: '/o-bibliotece', icon: Info },
   { name: 'Katalog', href: '/katalog', icon: BookOpen },
   { name: 'Wydarzenia', href: '/wydarzenia', icon: Calendar },

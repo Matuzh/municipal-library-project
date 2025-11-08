@@ -14,7 +14,7 @@ const footerLinks = {
   uslugi: [
     { name: 'Wydarzenia', href: '/wydarzenia' },
     { name: 'Dla dzieci', href: '/dla-dzieci' },
-    { name: 'Wypożyczalnia', href: '/wyp ozyczalnia' },
+    { name: 'Wypożyczalnia', href: '/wypozyczalnia' },
     { name: 'Czytelnia', href: '/czytelnia' },
   ],
   informacje: [

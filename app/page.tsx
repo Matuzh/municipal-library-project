@@ -1,10 +1,11 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   BookOpen,
   Calendar,
@@ -80,12 +81,47 @@ const news = [
   },
 ]
 
+const backgroundImages = [
+  '/heroBackground/biblioteka1.jpg',
+  '/heroBackground/biblioteka2.jpg',
+  '/heroBackground/biblioteka3.jpg',
+  '/heroBackground/biblioteka4.jpg',
+]
+
 export default function HomePage() {
+  const [currentImage, setCurrentImage] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % backgroundImages.length)
+    }, 7000) 
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-20 md:py-32">
-        <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+      <section className="relative overflow-hidden h-[80vh] flex items-center justify-center">
+        {/* Background Slideshow  */}
+        <div className="absolute inset-0">
+          <AnimatePresence mode="sync">
+            <motion.div
+              key={currentImage}
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${backgroundImages[currentImage]})`,
+                filter: 'blur(6px)',
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+            />
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-white/30" />
+        </div>
+
+
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
             {/* Hero Content */}
